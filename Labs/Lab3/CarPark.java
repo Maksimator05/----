@@ -54,9 +54,9 @@ public class CarPark {
         CarPark carPark = new CarPark();
         Scanner scanner = new Scanner(System.in);
 
-        carPark.addCar("ABC123", "Toyota", "Mark 2", 2010);
-        carPark.addCar("XYZ789", "Chevrolet", "Chevele", 2015);
-        carPark.addCar("LMN456", "Ford", "Mustang", 2018);
+        carPark.addCar("ABC123", "Toyota", "Mark 2", 2004);
+        carPark.addCar("XYZ789", "Chevrolet", "Chevelle", 1967);
+        carPark.addCar("LMN456", "Ford", "Mustang", 2024);
 
        
         System.out.println("Введите номерной знак, чтобы добавить автомобиль:");
