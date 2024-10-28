@@ -6,8 +6,8 @@ public class FileClone {
         FileOutputStream fileOut = null;
 
         try {
-            fileIn = new FileInputStream("file.txt");
-            fileOut = new FileOutputStream("copied_file.txt");
+            fileIn = new FileInputStream("D:\\Apps\\Доклады и работы по универу\\ИТ 2 семак\\Лабы\\Labs\\Lab4\\file.txt");
+            fileOut = new FileOutputStream("D:\\Apps\\Доклады и работы по универу\\ИТ 2 семак\\Лабы\\Labs\\Lab4\\copied_file.txt");
             int a;
             
             while ((a = fileIn.read()) != -1) {

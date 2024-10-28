@@ -1,14 +1,14 @@
 public class ArrayAverage {
     public static void main(String[] args) {
         int[] arr = {1, 2, 3, 4, 5};
-        int sum = 0;
+        double sum = 0;
 
         try {
             for (int index = 0; index < arr.length; ++index) {
                 sum += arr[index];
             }
-            sum = sum/arr.length;
-            System.out.println(sum);
+            double average = sum = sum / arr.length;
+            System.out.println(average);
         }
         catch(ArrayIndexOutOfBoundsException e) {
             System.out.println(e);
