@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import java.io.*;
+import java.util.ArrayList;
 
 class CustomEmptyStackException extends Exception {
     public CustomEmptyStackException(String message) {
@@ -53,7 +53,7 @@ public class TestCustomException {
             FileOutputStream fileOut = null;
 
             try {
-                fileOut = new FileOutputStream("except_log.txt", true);
+                fileOut = new FileOutputStream("D:\\Apps\\Доклады и работы по универу\\ИТ 2 семак\\Лабы\\Labs\\Lab4\\except_log.txt", true);
                 fileOut.write((ce.getMessage() + '\n').getBytes());
                 fileOut.close();
             }
