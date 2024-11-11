@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Standart {
+public class task_4 {
     public static void main(String[] args) {
         //#1
         System.out.println("#1");
