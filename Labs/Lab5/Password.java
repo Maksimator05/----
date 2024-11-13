@@ -1,16 +1,22 @@
 import java.util.regex.*;
 
-public class PasswordCorrect {
+public class Password {
     public static void main(String[] args) {
-        String password = "Qwerty120";
+        String password = "iQwerty1";
 
         try {
             Matcher matcher = Pattern.compile(".{8,16}").matcher(password);
-            boolean InRange = matcher.matches();
-            matcher = Pattern.compile("([A-Z]{1,}[a-z]{1,}[0-9]{1,})").matcher(password);
-            boolean IsWord = matcher.matches();
+            boolean inRange = matcher.find();
+            matcher = Pattern.compile("[A-Z]{1,}").matcher(password);
+            boolean upSim = matcher.find();
+            matcher = Pattern.compile("[a-z]{1,}").matcher(password);
+            boolean lowSim = matcher.find();
+            matcher = Pattern.compile("[0-9]{1,}").matcher(password);
+            boolean numMatch = matcher.find();
+            matcher = Pattern.compile("_?").matcher(password);
+            boolean specSim = matcher.find();
 
-            if (InRange && IsWord)
+            if (inRange && upSim && lowSim && numMatch && specSim)
                 System.out.println("Valid password");
             else
                 System.out.println("Invalid password");

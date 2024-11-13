@@ -1,12 +1,12 @@
 import java.util.regex.*;
 
-public class FindUpLowCase {
+public class FindWords {
     public static void main(String[] args) {
         try {
-            String text = "Text and text flaG AD S.E. Simonov";
+            String text = "Emma E.A. watched THE sunseT fade into the horizon";
 
-            char letter = 'S';
-            String regex = String.format("(?i)\\b%c[a-z*]+", letter);
+            char begin = 'E';
+            String regex = String.format("(?i)\\b%c[a-z]+", begin);
 
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(text);

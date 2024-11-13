@@ -1,15 +1,8 @@
 import java.util.regex.*;
 
-public class FindLowCase {
+public class FindInText {
     public static void main(String[] args) {
         try {
-            // ДЛЯ КОДА В СКРИН УДАЛИ КОММЕНТАРИИ
-            // String text = "Text flaG AD ljdgljb S.E. Si";
-            // Matcher matcher = Pattern.compile("([a-z][A-Z])").matcher(text);
-            // if (matcher.find())
-            //     System.out.println(matcher.replaceAll("!"));
-            // else
-            //     System.out.println("Nothing");
 
             String text = "TexT flaG AD S.E.Simonov";
             

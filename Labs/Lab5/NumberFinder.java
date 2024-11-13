@@ -9,7 +9,7 @@ public class NumberFinder {
             Matcher matcher = pattern.matcher(text);
     
             while (matcher.find()) {
-                System.out.println(matcher.group());
+                System.out.println(matcher.group()); //возвращает найденое совпадение
             }
         } catch (PatternSyntaxException e) {
             System.out.println(e);
