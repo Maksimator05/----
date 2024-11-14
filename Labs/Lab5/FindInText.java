@@ -4,7 +4,7 @@ public class FindInText {
     public static void main(String[] args) {
         try {
 
-            String text = "TexT flaG AD S.E.Simonov";
+            String text = "Jake B.N. qUicKly croSsed THE Street to catch the bus";
             
             Pattern pattern = Pattern.compile("([a-z])([A-Z])");
             Matcher matcher = pattern.matcher(text);
