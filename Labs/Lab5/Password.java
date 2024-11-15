@@ -5,18 +5,16 @@ public class Password {
         String password = "rnejvnD33";
 
         try {
-            Matcher matcher = Pattern.compile(".{8,16}").matcher(password);
-            boolean inRange = matcher.find();
+            Matcher matcher = Pattern.compile("\\w{8,16}").matcher(password);
+            boolean inRange = matcher.matches();
             matcher = Pattern.compile("[A-Z]{1,}").matcher(password);
             boolean upSim = matcher.find();
             matcher = Pattern.compile("[a-z]{1,}").matcher(password);
             boolean lowSim = matcher.find();
             matcher = Pattern.compile("[0-9]{1,}").matcher(password);
             boolean numMatch = matcher.find();
-            matcher = Pattern.compile("_?").matcher(password);
-            boolean specSim = matcher.find();
 
-            if (inRange && upSim && lowSim && numMatch && specSim)
+            if (inRange && upSim && lowSim && numMatch)
                 System.out.println("Valid password");
             else
                 System.out.println("Invalid password");

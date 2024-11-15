@@ -5,8 +5,8 @@ public class FindWords {
         try {
             String text = "Emma E.A. watched THE sunseT fade into the horizon";
 
-            char begin = 'E';
-            String regex = String.format("(?i)\\b%c[a-z]+", begin);
+            char start = 'E';
+            String regex = String.format("(?i)\\b%c[a-z]*", start);
 
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(text);
