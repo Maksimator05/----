@@ -1,10 +1,12 @@
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class task_5 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         //#1
         System.out.println("#1");
         System.out.println(sameLetterPattern("ABAB", "CDCD"));
@@ -26,16 +28,25 @@ public class task_5 {
         System.out.println(digitsCount(1289396387328L));
         //#4
         System.out.println("#4");
-
+        System.out.println(totalPoints(new String[]{"cat", "create", "sat"}, "caster"));
+        System.out.println(totalPoints(new String[]{"trance", "recant"}, "recant"));
+        System.out.println(totalPoints(new String[]{"dote", "dotes", "toes", "set", "dot", "dots", "sted"}, "tossed"));
         //#5
         System.out.println("#5");
-
+        System.out.println(longestRun(new int[]{1, 2, 3, 5, 6, 7, 8, 9}));
+        System.out.println(longestRun(new int[]{1, 2, 3, 10, 11, 15}));
+        System.out.println(longestRun(new int[]{5, 4, 2, 1}));
+        System.out.println(longestRun(new int[]{3, 5, 7, 10, 15}));
         //#6
         System.out.println("#6");
-
+        System.out.println(takeDownAverage(new String[]{"95%", "83%", "90%", "87%", "88%", "93%"}));
+        System.out.println(takeDownAverage(new String[]{"10%"}));
+        System.out.println(takeDownAverage(new String[]{"53%", "79%"}));
         //#7
         System.out.println("#7");
-
+        System.out.println(canMove("Rook", "A8", "H8"));
+        System.out.println(canMove("Bishop", "A7", "G1"));
+        System.out.println(canMove("Queen", "C4", "D6"));
         //#8
         System.out.println("#8");
         System.out.println(maxPossible(523, 76));
@@ -43,7 +54,6 @@ public class task_5 {
         System.out.println(maxPossible(8732, 91255));
         //#9
         System.out.println("#9");
-
         //#10
         System.out.println("#10");
         System.out.println(isNew(3));
@@ -58,26 +68,15 @@ public class task_5 {
             return false;
         }
 
-        Map<Character, Character> map = new HashMap<>();
-
         for (int i = 0; i < str1.length(); i++) {
-            char c1 = str1.charAt(i);
-            char c2 = str2.charAt(i);
-
-            if (map.containsKey(c1)) {
-                if (map.get(c1) != c2) {
-                    return false;
-                }
-            } else {
-                if (map.containsValue(c2)) {
-                    return false;
-                }
-                map.put(c1, c2);
+            if (str1.indexOf(str1.charAt(i)) != str2.indexOf(str2.charAt(i))) {
+                return false;
             }
         }
 
         return true;
     }
+
 
     //#2
     public static int memeSum(int num1, int num2) {
@@ -116,45 +115,139 @@ public class task_5 {
         }
     }
     //#4
+    public static int totalPoints(String[] guessedWords, String scrambledWord) {
+        int totalPoints = 0;
+        Map<Character, Integer> letterCount = getLetterCount(scrambledWord);
 
-    //#5
-
-    //#6
-
-    //#7
-
-    //#8
-    public static int maxPossible(int num1, int num2) {
-        // Преобразуем числа в строки
-        String str1 = String.valueOf(num1);
-        String str2 = String.valueOf(num2);
-
-        // Преобразуем строку второго числа в массив символов и сортируем его в порядке убывания
-        Character[] digits2 = str2.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
-        Arrays.sort(digits2, Collections.reverseOrder());
-
-        // Создаем массив для результата
-        char[] result = str1.toCharArray();
-
-        // Индекс для прохода по отсортированным цифрам второго числа
-        int index2 = 0;
-
-        // Проходим по цифрам первого числа
-        for (int i = 0; i < result.length; i++) {
-            // Если есть еще цифры во втором числе и текущая цифра первого числа меньше текущей цифры второго числа
-            if (index2 < digits2.length && result[i] < digits2[index2]) {
-                // Заменяем цифру первого числа на цифру второго числа
-                result[i] = digits2[index2];
-                // Переходим к следующей цифре второго числа
-                index2++;
+        for (String word : guessedWords) {
+            if (canFormWord(word, letterCount)) {
+                totalPoints += getPointsForWord(word);
             }
         }
 
-        // Преобразуем массив символов обратно в строку и затем в число
+        return totalPoints;
+    }
+
+    private static Map<Character, Integer> getLetterCount(String word) {
+        Map<Character, Integer> letterCount = new HashMap<>();
+        for (char c : word.toCharArray()) {
+            letterCount.put(c, letterCount.getOrDefault(c, 0) + 1);
+        }
+        return letterCount;
+    }
+
+    private static boolean canFormWord(String word, Map<Character, Integer> letterCount) {
+        Map<Character, Integer> tempCount = new HashMap<>(letterCount);
+        for (char c : word.toCharArray()) {
+            if (!tempCount.containsKey(c) || tempCount.get(c) == 0) {
+                return false;
+            }
+            tempCount.put(c, tempCount.get(c) - 1);
+        }
+        return true;
+    }
+
+    private static int getPointsForWord(String word) {
+        int length = word.length();
+        switch (length) {
+            case 3:
+                return 1;
+            case 4:
+                return 2;
+            case 5:
+                return 3;
+            case 6:
+                return 4 + 50;
+            default:
+                return 0;
+        }
+    }
+    //#5
+    public static int longestRun(int[] arr) {
+        if (arr.length == 0) return 0;
+
+        int maxRun = 1;
+        int currentRun = 1;
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] == arr[i - 1] + 1 || arr[i] == arr[i - 1] - 1) {
+                currentRun++;
+            } else {
+                maxRun = Math.max(maxRun, currentRun);
+                currentRun = 1;
+            }
+        }
+
+        return Math.max(maxRun, currentRun);
+    }
+    //#6
+    public static String takeDownAverage(String[] scores) {
+        int total = 0;
+        int count = scores.length;
+
+        for (String score : scores) {
+            total += Integer.parseInt(score.replace("%", ""));
+        }
+
+        double currentAverage = total / (double) count;
+
+        double newAverage = currentAverage - 5;
+
+        double requiredScore = newAverage * (count + 1) - total;
+
+        int roundedScore = (int) Math.round(requiredScore);
+
+        return roundedScore + "%";
+    }
+    //#7
+    public static boolean canMove(String figure, String start, String end) {
+        int startRow = start.charAt(1) - '1';
+        int endRow = end.charAt(1) - '1';
+        char startCol = start.charAt(0);
+        char endCol = end.charAt(0);
+        int colDiff = Math.abs(startCol - endCol);
+        int rowDiff = Math.abs(startRow - endRow);
+
+        switch (figure.toLowerCase()) {
+            case "pawn":
+                return (startRow + 1 == endRow && startCol == endCol) ||
+                        (startRow + 2 == endRow && startCol == endCol && startRow == 1);
+            case "knight":
+                return (colDiff == 2 && rowDiff == 1) || (colDiff == 1 && rowDiff == 2);
+            case "bishop":
+                return colDiff == rowDiff;
+            case "rook":
+                return startCol == endCol || startRow == endRow;
+            case "queen":
+                return startCol == endCol || startRow == endRow || colDiff == rowDiff;
+            case "king":
+                return colDiff <= 1 && rowDiff <= 1;
+            default:
+                return false;
+        }
+    }
+    //#8
+    public static int maxPossible(int num1, int num2) {
+        String str1 = String.valueOf(num1);
+        String str2 = String.valueOf(num2);
+
+        Character[] digits2 = str2.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
+        Arrays.sort(digits2, Collections.reverseOrder());
+
+        char[] result = str1.toCharArray();
+        int index2 = 0;
+
+        for (int i = 0; i < result.length; i++) {
+            if (index2 < digits2.length && result[i] < digits2[index2]) {
+                result[i] = digits2[index2];
+                index2++;
+            }
+        }
         return Integer.parseInt(new String(result));
     }
-    //#9
 
+    //#9
+   
     //#10
     public static boolean isNew(int n) {
         for (int i = 1; i < n; i++) {
