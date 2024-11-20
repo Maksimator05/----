@@ -1,7 +1,10 @@
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -54,6 +57,10 @@ public class task_5 {
         System.out.println(maxPossible(8732, 91255));
         //#9
         System.out.println("#9");
+        System.out.println("#9");
+        System.out.println(timeDifference("Los Angeles", "April 1, 2011 23:23", "Canberra"));
+        System.out.println(timeDifference("London", "July 31, 1983 23:01", "Rome"));
+        System.out.println(timeDifference("New York", "December 31, 1970 13:40", "Beijing"));
         //#10
         System.out.println("#10");
         System.out.println(isNew(3));
@@ -247,7 +254,36 @@ public class task_5 {
     }
 
     //#9
-   
+   private static final Map<String, Integer> CITY_OFFSETS = new HashMap<>();
+
+    static {
+        CITY_OFFSETS.put("Los Angeles", -8 * 60);
+        CITY_OFFSETS.put("New York", -5 * 60);
+        CITY_OFFSETS.put("Caracas", -4 * 60 - 30);
+        CITY_OFFSETS.put("Buenos Aires", -3 * 60);
+        CITY_OFFSETS.put("London", 0);
+        CITY_OFFSETS.put("Rome", 1 * 60);
+        CITY_OFFSETS.put("Moscow", 3 * 60);
+        CITY_OFFSETS.put("Tehran", 3 * 60 + 30);
+        CITY_OFFSETS.put("New Delhi", 5 * 60 + 30);
+        CITY_OFFSETS.put("Beijing", 8 * 60);
+        CITY_OFFSETS.put("Canberra", 10 * 60);
+    }
+
+    public static String timeDifference(String cityA, String timestamp, String cityB) {
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMMM d, yyyy HH:mm", Locale.US);
+        LocalDateTime cityATime = LocalDateTime.parse(timestamp, inputFormatter);
+
+        int offsetA = CITY_OFFSETS.getOrDefault(cityA, 0);
+        int offsetB = CITY_OFFSETS.getOrDefault(cityB, 0);
+
+        LocalDateTime utcTime = cityATime.minusMinutes(offsetA);
+        LocalDateTime cityBTime = utcTime.plusMinutes(offsetB);
+
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-M-d HH:mm");
+        return cityBTime.format(outputFormatter);
+    }
+
     //#10
     public static boolean isNew(int n) {
         for (int i = 1; i < n; i++) {
