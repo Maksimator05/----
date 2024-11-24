@@ -57,7 +57,6 @@ public class task_5 {
         System.out.println(maxPossible(8732, 91255));
         //#9
         System.out.println("#9");
-        System.out.println("#9");
         System.out.println(timeDifference("Los Angeles", "April 1, 2011 23:23", "Canberra"));
         System.out.println(timeDifference("London", "July 31, 1983 23:01", "Rome"));
         System.out.println(timeDifference("New York", "December 31, 1970 13:40", "Beijing"));
