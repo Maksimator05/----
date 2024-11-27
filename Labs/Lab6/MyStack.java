@@ -21,6 +21,7 @@ class Stack<T> {
     private int capacity;
 
     // Конструктор с заданной емкостью стека
+    @SuppressWarnings("unchecked")//аннотация для того, чтобы убрать анчекед(возникающий из-зи стирания типов в джава)
     public Stack(int capacity) {
         this.capacity = capacity;
         this.data = (T[]) new Object[capacity]; // Создание массива для хранения элементов
@@ -75,48 +76,6 @@ class Stack<T> {
 Тем не менее, можно обойти это ограничение с помощью приведения типов (в том числе создания массива типа Object[], 
 а затем приведения его к T[]), но при этом потребуется использовать небезопасное приведение типов. 
 Для этого можно передать Class<T> в качестве параметра конструктора, что позволит создать массив с помощью Array.newInstance().
-
-Вот рабочий пример:
-
-import java.lang.reflect.Array;
-
-public class GenericArray<T> {
-    private T[] array;
-
-    // Конструктор, который принимает размер массива и тип данных
-    public GenericArray(Class<T> clazz, int size) {
-        // Создаем массив типа T с использованием Array.newInstance()
-        @SuppressWarnings("unchecked")
-        this.array = (T[]) Array.newInstance(clazz, size); // Приведение типа в безопасной форме
-    }
-
-    // Метод для доступа к элементам массива
-    public T get(int index) {
-        return array[index];
-    }
-
-    // Метод для добавления элемента
-    public void set(int index, T value) {
-        array[index] = value;
-    }
-
-    // Метод для получения длины массива
-    public int length() {
-        return array.length;
-    }
-
-    public static void main(String[] args) {
-        // Пример использования с Integer
-        GenericArray<Integer> integerArray = new GenericArray<>(Integer.class, 10);
-        integerArray.set(0, 42);
-        System.out.println(integerArray.get(0));
-
-        // Пример использования с String
-        GenericArray<String> stringArray = new GenericArray<>(String.class, 5);
-        stringArray.set(0, "Hello");
-        System.out.println(stringArray.get(0));
-    }
-}
 
 Пояснение:
 Array.newInstance(clazz, size) — это метод из пакета java.lang.reflect, 

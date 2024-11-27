@@ -8,10 +8,6 @@ public class SalesTrackerMax {
         // Scanner scanner = new Scanner(System.in);
 
         SalesTracker salesTracker = new SalesTracker();
-
-        salesTracker.addPrice("prod1", 100.0);
-        salesTracker.addPrice("prod2", 200.0);
-        salesTracker.addPrice("prod3", 150.0);
         
         salesTracker.addSale("prod1", 10);
         salesTracker.addSale("prod2", 5);
@@ -19,7 +15,7 @@ public class SalesTrackerMax {
         salesTracker.addSale("prod1", 3);
 
         salesTracker.displaySales();
-        System.out.println("Total price: " + salesTracker.calculateTotalSales());
+        System.out.println("Total: " + salesTracker.calculateTotalSales());
         System.out.println("Most pop. prod.: " + salesTracker.findMostPopularItem());
 
         /*while (true) {
@@ -42,20 +38,20 @@ public class SalesTrackerMax {
                     System.out.print("Введите количество проданных единиц: ");
                     int quantity = scanner.nextInt();
                     scanner.nextLine(); // Считываем символ новой строки
-                    salesTraker.addSale(item, quantity);
+                    salesTracker.addSale(item, quantity);
                     break;
                 case 2:
                     // Показать список товаров
-                    salesTraker.displaySales();
+                    salesTracker.displaySales();
                     break;
                 case 3:
                     // Посчитать общую сумму продаж
-                    double totalSales = salesTraker.calculateTotalSales();
+                    double totalSales = salesTracker.calculateTotalSales();
                     System.out.println("Общая сумма продаж: " + totalSales + " руб.");
                     break;
                 case 4:
                     // Найти наиболее популярный товар
-                    String mostPopularItem = salesTraker.findMostPopularItem();
+                    String mostPopularItem = salesTracker.findMostPopularItem();
                     System.out.println("Наиболее популярный товар: " + mostPopularItem);
                     break;
                 case 5:
@@ -72,19 +68,13 @@ public class SalesTrackerMax {
 
 class SalesTracker {
     private ConcurrentHashMap<String, AtomicInteger> sales;
-    private ConcurrentHashMap<String, Double> prices;
 
     public SalesTracker() {
-        this.sales = new ConcurrentHashMap<>();
-        this.prices = new ConcurrentHashMap<>();
+        sales = new ConcurrentHashMap<>();
     }
 
     public void addSale(String item, int quantity) {
         sales.computeIfAbsent(item, k -> new AtomicInteger(0)).addAndGet(quantity);
-    }
-
-    public void addPrice(String item, double price) {
-        prices.putIfAbsent(item, price);
     }
 
     public void displaySales() {
@@ -99,18 +89,11 @@ class SalesTracker {
         }
     }
 
-    public double calculateTotalSales() {
-        double total = 0.0;
+    public int calculateTotalSales() {
+        int total = 0;
         
         for (Map.Entry<String, AtomicInteger> entry : sales.entrySet()) {
-            String item = entry.getKey();
-            int quantitySold = entry.getValue().get();
-
-            if (prices.containsKey(item)) {
-                total += prices.get(item) * quantitySold;
-            } else {
-                System.out.println("price of prod. " + item + " not found");
-            }
+            total += entry.getValue().get();
         }
 
         return total;
