@@ -87,11 +87,11 @@ public class WarehouseTransferWithBarrier {
     // Метод для симуляции переноса товаров
     private static void deliverItems(int loaderId, List<Item> items) throws InterruptedException {
         System.out.println("loader " + loaderId + " transfers: " + items);
-        Thread.sleep(1000);  // Симуляция времени переноса
+        Thread.sleep(1000);  // Симуляция времени переноса для вида бурной деятельности
         System.out.println("loader " + loaderId + " completed the transfer.");
     }
 
-    // Разбиение списка товаров на части для каждого грузчика
+    // Разбиение списка товаров на части для каждого грузчика. делим на три патока три партишена
     private static List<List<Item>> partitionItems(List<Item> items, int numPartitions) {
         List<List<Item>> partitions = new ArrayList<>();
         int partitionSize = (int) Math.ceil((double) items.size() / numPartitions);
